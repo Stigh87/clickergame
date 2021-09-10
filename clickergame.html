@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        div {
+            font-size: 300%;
+            user-select: none;
+        }
+        #jukset{
+            color: rgb(251, 255, 0);
+            background-color: red;
+            font-size: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+    <p>1. Lag en liten "jukseknapp" som både tidobler poengene dine og antall poeng per klikk. </p>
+    <br>
+    <p>2. Endre updateView til å vise teksten "Du har jukset" hvis, og bare hvis, brukeren har jukset. (Hint: du trenger en ny variabel i modellen for å huske om brukeren har jukset eller ikke.)</p>
+
+    <script>
+        // model
+        var points = 0;
+        var pointsPerClick = 1;
+        var smileyIndex = 0;
+        var cheater = "";
+        
+
+        // controller
+        function doClick() {
+            points += pointsPerClick;
+            smileyIndex = 1 - smileyIndex;
+            updateView();
+        }
+           
+        function buyUpgrade() {
+            if (points < 10) return;
+            points -= 10;
+            pointsPerClick++;
+            updateView();
+        }
+
+        function cheat() {
+            points *= 10;
+            pointsPerClick *= 10;
+            cheater = "Du har jukset!";
+            updateView();
+        }
+       
+        // view
+        updateView();
+        function updateView() {
+            var smiley = smileyIndex == 0 ? '😀' : '😁';
+            document.getElementById('app').innerHTML = `
+                <div id="image" onclick="doClick()">${smiley}</div>
+                <div id="pointsInfo">${points}</div>
+                <div id="jukset">${cheater}</div>
+                <button onclick="buyUpgrade()">Kjøp oppgradering (10 poeng)</button>
+                <button onclick="cheat()">Vinn kjapt</button>
+            `;
+        }
+    </script>
+</body>
+
+</html>
